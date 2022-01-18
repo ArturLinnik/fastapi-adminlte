@@ -42,10 +42,9 @@
 
         <form role="form" method="post" action="">
 
-          {{ form.hidden_tag() }}
 
           <div class="input-group mb-3">
-            {{ form.username(placeholder="Username", class="form-control") }}
+            <input class="form-control" placeholder="Username" name="username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-user"></span>
@@ -53,7 +52,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            {{ form.email(placeholder="Email", class="form-control") }}
+            <input type="email" class="form-control" placeholder="Email" name="email">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -61,7 +60,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            {{ form.password(placeholder="Password", class="form-control", type="password") }}
+            <input type="password" class="form-control" placeholder="Password" name="password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -85,17 +84,6 @@
             <!-- /.col -->
           </div>
         </form>
-
-        <br />
-        <div class="text-center">
-            Have an account? <a href="{{ url_for('authentication_blueprint.login') }}" class="text-center">Login</a>
-            <br />
-            <br />
-            &copy; ColorLib 
-            <a target="_blank" rel="noopener noreferrer"
-               href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte"><b>Admin</b>LTE</a> 
-            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">AppSeed</a>.
-        </div>
 
       </div>
       <!-- /.form-box -->

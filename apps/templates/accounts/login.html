@@ -42,10 +42,9 @@
 
         <form method="post" action="">
 
-          {{ form.hidden_tag() }}
 
           <div class="input-group mb-3">
-            {{ form.username(placeholder="Username", class="form-control") }}
+            <input class="form-control" placeholder="Username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -53,7 +52,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            {{ form.password(placeholder="Password", class="form-control", type="password") }}
+            <input type="password" class="form-control" placeholder="Password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -77,17 +76,7 @@
           </div>
         </form>
 
-        <br /><br />
 
-        <div class="text-center">
-            Not a member? <a href="{{ url_for('authentication_blueprint.register') }}" class="text-center">Register</a>
-            <br />
-            <br />
-            &copy; ColorLib 
-            <a target="_blank" rel="noopener noreferrer"
-               href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte"><b>Admin</b>LTE</a> 
-            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">AppSeed</a>.
-        </div>
 
       </div>
       <!-- /.login-card-body -->
