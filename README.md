@@ -1,11 +1,20 @@
 
 # Changes
 
-- [ ] Migrate Flask to FastAPI
-- [ ] Register and Login forms validation
-- [ ] Hash passwords with Bcrypt instead of sha256
-- [ ] Use JWT Tokens
-
+- [ ] Migrate Flask to FastAPI.
+  - [x] Register Template.
+  - [x] Login Template.
+  - [x] SQL Database.
+  - [x] Index template.
+  - [ ] Password hashing with Bcrypt.
+  - [ ] JWT Tokens with Cookies.
+  - [ ] Jinja2 variables.
+  - [ ] Html templates hrefs.
+  - [ ] Environment variables.
+  - [ ] Run app using run.py.
+  - [ ] Clean code.
+- [ ] Register and Login forms validation.
+- [ ] Change AdminLTE's frontend and database structure to ours.
 
 # [AdminLTE Flask](https://appseed.us/admin-dashboards/flask-dashboard-adminlte)
 
