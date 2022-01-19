@@ -26,6 +26,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 #####################
 from copy import deepcopy
+from urllib import request
 from fastapi import APIRouter
 from fastapi import Request
 from fastapi.responses import HTMLResponse
@@ -36,7 +37,11 @@ from .forms import CreateAccountFormRequest, CreateAccountFormResponse
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
-from .models import Users
+from apps.authentication.models import Users
+# from .crud import get_user_by_email
+# from fastapi import HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
+from .util import verify_pass
 #####################
 
 
@@ -55,35 +60,62 @@ async def register(request: Request):
     return templates.TemplateResponse("accounts/register.html", {"request": request})
 
 @router.post("/register", response_model=CreateAccountFormResponse)
-async def create_user(form_data: CreateAccountFormRequest = Depends(CreateAccountFormRequest.create_account_form), db: Session = Depends(get_db)):
-    # db_user = get_user_by_email(db, email=form_data.email)
+async def create_user(request: Request, form_data: CreateAccountFormRequest = Depends(CreateAccountFormRequest.create_account_form), db: Session = Depends(get_db)):
 
-    # if db_user:
-    #     raise HTTPException(status_code=400, detail="Email already registered")
+    # Read form data
+    username = form_data.username
+    email = form_data.email
+    password = form_data.password
+    
+    # Check username exists
+    user = db.query(Users).filter(Users.username == username).first() 
+    if user:
+        return templates.TemplateResponse("accounts/register.html", {"request": request, "msg": "Username already registered", "success": False})
 
-    db_user = Users(
-        username = form_data.username,
-        email = form_data.email,
-        password = form_data.password,
+    # Check email exists
+    user = db.query(Users).filter(Users.email == email).first() 
+    if user:
+        return templates.TemplateResponse("accounts/register.html", {"request": request, "msg": "Email already registered", "success": False})
+
+    # Else we can create the user
+    user = Users(
+        username = username,
+        email = email,
+        password = password,
         )
 
-    db.add(db_user)
+    db.add(user)
     db.commit()
-    db.refresh(db_user)
+    db.refresh(user)
 
-    return db_user
+    return templates.TemplateResponse("accounts/register.html", {"request": request, "msg": "User created please <a href='/login'>login</a>", "success": True})
 
 
 @router.get("/login", response_class=HTMLResponse)
 async def login(request: Request):
     return templates.TemplateResponse("accounts/login.html", {"request": request})
 
+@router.post("/login")
+async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
 
+    # Read form data
+    username = form_data.username
+    password = form_data.password
+    
+    # Locate user
+    user = db.query(Users).filter(Users.username == username).first()
 
+    # Check the password
+    if user and verify_pass(password, user.password):
 
+        # login_user(user)
+        # return redirect(url_for('authentication_blueprint.route_default'))
+        response = RedirectResponse(url="/index", status_code=303)
+        return response
 
+    # Something (user or pass) is not ok
+    return templates.TemplateResponse("accounts/login.html", {"request": request, "msg": "Wrong user or password", "success": False})
 
-# Login & Registration
 
 # @blueprint.route('/login', methods=['GET', 'POST'])
 # def login():
@@ -122,7 +154,7 @@ async def login(request: Request):
 #         username = request.form['username']
 #         email = request.form['email']
 
-#         # Check usename exists
+#         # Check username exists
 #         user = Users.query.filter_by(username=username).first()
 #         if user:
 #             return render_template('accounts/register.html',
@@ -151,11 +183,12 @@ async def login(request: Request):
 #     else:
 #         return render_template('accounts/register.html', form=create_account_form)
 
+@router.get('/logout')
+async def logout():
 
-# @blueprint.route('/logout')
-# def logout():
-#     logout_user()
-#     return redirect(url_for('authentication_blueprint.login'))
+    # Delete cookie and create current_user.username in sidebar.html
+    
+    return RedirectResponse(url="/login")
 
 
 # # Errors

@@ -32,19 +32,21 @@
     <div class="card">
       <div class="card-body login-card-body">
 
-            <p class="login-box-msg">
-            {% if msg %}
-                {{ msg | safe }}
-            {% else %}
-                Add your credentials
-            {% endif %}
+        <p class="login-box-msg">
+          {% if (msg and success == False) %}
+              <span class="text-danger">{{ msg | safe }}</span>
+          {% else %}
+          <span>
+              Add your credentials
+          </span>
+          {% endif %}            
         </p>
 
         <form method="post" action="">
 
 
           <div class="input-group mb-3">
-            <input class="form-control" placeholder="Username">
+            <input class="form-control" placeholder="Username" name="username">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-envelope"></span>
@@ -52,7 +54,7 @@
             </div>
           </div>
           <div class="input-group mb-3">
-            <input type="password" class="form-control" placeholder="Password">
+            <input type="password" class="form-control" placeholder="Password" name="password">
             <div class="input-group-append">
               <div class="input-group-text">
                 <span class="fas fa-lock"></span>
@@ -70,13 +72,19 @@
             </div>
             <!-- /.col -->
             <div class="col-4">
-              <button type="submit" name="login" class="btn btn-primary btn-block">Sign In</button>
+              <!-- <button type="submit" name="login" class="btn btn-primary btn-block">Sign In</button> -->
+              <button type="submit" class="btn btn-primary btn-block">Sign In</button>
             </div>
             <!-- /.col -->
           </div>
         </form>
 
+        <br />
 
+        <div class="text-center">
+            <!-- Not a member? <a href="/register" class="text-center">Register</a> -->
+            Not a member? <a href="{{ url_for('register') }}" class="text-center">Register</a>
+        </div>
 
       </div>
       <!-- /.login-card-body -->

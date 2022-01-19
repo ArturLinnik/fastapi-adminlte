@@ -31,8 +31,10 @@
     <div class="card">
       <div class="card-body register-card-body">
         <p class="login-box-msg">
-            {% if msg %}
+            {% if (msg and success == False) %}
                 <span class="text-danger">{{ msg | safe }}</span>
+            {% elif (msg and success == True) %}
+                <span class="text-success">{{ msg | safe }}</span>
             {% else %}
             <span>
                 Add your credentials
@@ -84,6 +86,12 @@
             <!-- /.col -->
           </div>
         </form>
+        
+        <br />
+        <div class="text-center">
+            Have an account? <a href="{{ url_for('login') }}" class="text-center">Login</a>
+            <br />
+        </div>
 
       </div>
       <!-- /.form-box -->

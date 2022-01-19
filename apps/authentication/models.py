@@ -11,6 +11,9 @@ from ..database import Base
 from sqlalchemy import Column, String, Integer, LargeBinary
 
 from apps.authentication.util import hash_pass
+# from apps import login_manager
+
+
 
 # class Users(db.Model, UserMixin):
 class Users(Base):
@@ -40,14 +43,3 @@ class Users(Base):
     # def __repr__(self):
     #     return str(self.username)
 
-
-# @login_manager.user_loader
-# def user_loader(id):
-#     return Users.query.filter_by(id=id).first()
-
-
-# @login_manager.request_loader
-# def request_loader(request):
-#     username = request.form.get('username')
-#     user = Users.query.filter_by(username=username).first()
-#     return user if user else None

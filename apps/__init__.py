@@ -15,9 +15,12 @@ Copyright (c) 2019 - present AppSeed.us
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from .authentication.routes import router
+from apps.authentication import routes as routes1
+from apps.home import routes as routes2
 
 from .database import Base, engine
+
+# from fastapi_login import LoginManager
 #######
 
 
@@ -25,7 +28,6 @@ from .database import Base, engine
 
 
 # db = SQLAlchemy()
-# login_manager = LoginManager()
 
 
 # def register_extensions(app):
@@ -76,7 +78,8 @@ app.mount(
     name="static",
 )
 
-app.include_router(router)
+app.include_router(routes1.router)
+app.include_router(routes2.router)
 
 # templates = Jinja2Templates(directory="apps/templates")
 
