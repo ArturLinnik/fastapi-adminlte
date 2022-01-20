@@ -28,6 +28,15 @@ async def index(request: Request, user: Users = Depends(get_current_user)):
     return templates.TemplateResponse("home/index.html", {"request": request, "current_user": user.username})
 
 
+
+@router.get("/{template}", response_class=HTMLResponse)
+async def route_template(request: Request, template: str, user: Users = Depends(get_current_user)):
+
+    if not template.endswith(".html"):
+        template += ".html"
+
+    return templates.TemplateResponse(f"home/{template}", {"request": request, "current_user": user.username})
+
 # @blueprint.route('/index')
 # @login_required
 # def index():

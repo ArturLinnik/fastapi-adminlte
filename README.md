@@ -9,7 +9,7 @@
   - [x] Password hashing with Bcrypt.
   - [x] JWT Tokens with Cookies.
   - [x] Custom error pages.
-  - [ ] Html templates hrefs.
+  - [x] Html templates hrefs.
   - [ ] Jinja2 variables.
   - [ ] Environment variables.
   - [ ] Run app using run.py.
