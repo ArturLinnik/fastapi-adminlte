@@ -1,36 +1,45 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
 import os
 import hashlib
 import binascii
 
-# Inspiration -> https://www.vitoshacademy.com/hashing-passwords-in-python/
 
 
-def hash_pass(password):
-    """Hash a password for storing."""
+###############
 
-    salt = hashlib.sha256(os.urandom(60)).hexdigest().encode('ascii')
-    pwdhash = hashlib.pbkdf2_hmac('sha512', password.encode('utf-8'),
-                                  salt, 100000)
-    pwdhash = binascii.hexlify(pwdhash)
-    return (salt + pwdhash)  # return bytes
+from fastapi import Request, HTTPException, status
+from fastapi.security import OAuth2
+from fastapi.openapi.models import OAuthFlows as OAuthFlowsModel
+from fastapi.security.utils import get_authorization_scheme_param
+
+from typing import Optional, Dict
 
 
-def verify_pass(provided_password, stored_password):
-    """Verify a stored password against one provided by user"""
+class OAuth2PasswordBearerWithCookie(OAuth2):
+    def __init__(
+        self,
+        tokenUrl: str,
+        scheme_name: Optional[str] = None,
+        scopes: Optional[Dict[str, str]] = None,
+        auto_error: bool = True,
+    ):
+        if not scopes:
+            scopes = {}
+        flows = OAuthFlowsModel(password={"tokenUrl": tokenUrl, "scopes": scopes})
+        super().__init__(flows=flows, scheme_name=scheme_name, auto_error=auto_error)
 
-    # stored_password = stored_password.decode('ascii')
-    # salt = stored_password[:64]
-    # stored_password = stored_password[64:]
-    # pwdhash = hashlib.pbkdf2_hmac('sha512',
-    #                               provided_password.encode('utf-8'),
-    #                               salt.encode('ascii'),
-    #                               100000)
-    # pwdhash = binascii.hexlify(pwdhash).decode('ascii')
-    # return pwdhash == stored_password
-    return provided_password == stored_password
+    async def __call__(self, request: Request) -> Optional[str]:
+        authorization: str = request.cookies.get("access_token")  # changed to accept access token from httpOnly Cookie
 
+        scheme, param = get_authorization_scheme_param(authorization)
+        if not authorization or scheme.lower() != "bearer":
+            if self.auto_error:
+                raise HTTPException(
+                    status_code=status.HTTP_401_UNAUTHORIZED,
+                    detail="Not authenticated",
+                    headers={"WWW-Authenticate": "Bearer"},
+                )
+            else:
+                return None
+        return param

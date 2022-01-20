@@ -1,7 +1,4 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
 # from re import template
 # from apps.home import blueprint
@@ -18,6 +15,8 @@ from fastapi.requests import Request
 from sqlalchemy.orm import Session
 from fastapi import Header
 from typing import Optional
+from ..authentication.models import Users
+from ..authentication.crud import get_current_user
 
 
 router = APIRouter()
@@ -25,8 +24,8 @@ router = APIRouter()
 templates = Jinja2Templates(directory="apps/templates")
 
 @router.get("/index", response_class=HTMLResponse)
-async def index(request: Request):
-    return templates.TemplateResponse("home/index.html", {"request": request, "current_user": "Username"})
+async def index(request: Request, user: Users = Depends(get_current_user)):
+    return templates.TemplateResponse("home/index.html", {"request": request, "current_user": user.username})
 
 
 # @blueprint.route('/index')

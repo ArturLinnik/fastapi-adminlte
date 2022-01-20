@@ -10,7 +10,7 @@ from ..database import Base
 
 from sqlalchemy import Column, String, Integer, LargeBinary
 
-from apps.authentication.util import hash_pass
+from .password import hash_pass
 # from apps import login_manager
 
 

@@ -1,7 +1,4 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
 # from urllib import response
 # from flask import render_template, redirect, request, url_for
@@ -33,15 +30,17 @@ from fastapi.responses import HTMLResponse
 from starlette.responses import RedirectResponse
 from fastapi.responses import Response
 from fastapi.templating import Jinja2Templates
-from .forms import CreateAccountFormRequest, CreateAccountFormResponse
+from .schemas import CreateAccountFormRequest, CreateAccountFormResponse
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from ..database import get_db
 from apps.authentication.models import Users
-# from .crud import get_user_by_email
-# from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
-from .util import verify_pass
+from .password import verify_pass, hash_pass
+from .crud import get_user, get_email
+from datetime import datetime, timedelta
+from .token import ACCESS_TOKEN_EXPIRE_MINUTES, create_access_token
+from apps.authentication import password
 #####################
 
 
@@ -67,21 +66,21 @@ async def create_user(request: Request, form_data: CreateAccountFormRequest = De
     email = form_data.email
     password = form_data.password
     
-    # Check username exists
-    user = db.query(Users).filter(Users.username == username).first() 
+    # Check if username exists
+    user = get_user(db, username)
     if user:
         return templates.TemplateResponse("accounts/register.html", {"request": request, "msg": "Username already registered", "success": False})
 
     # Check email exists
-    user = db.query(Users).filter(Users.email == email).first() 
+    user = get_email(db, email)
     if user:
         return templates.TemplateResponse("accounts/register.html", {"request": request, "msg": "Email already registered", "success": False})
 
     # Else we can create the user
     user = Users(
-        username = username,
-        email = email,
-        password = password,
+        username = username.lower(),
+        email = email.lower(),
+        password = hash_pass(password),
         )
 
     db.add(user)
@@ -110,7 +109,17 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
 
         # login_user(user)
         # return redirect(url_for('authentication_blueprint.route_default'))
+
+        access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+
+        access_token = create_access_token(
+        data={"sub": user.username}, expires_delta=access_token_expires
+        )
+
+
         response = RedirectResponse(url="/index", status_code=303)
+        response.set_cookie(key="access_token", value=f"Bearer {access_token}", httponly=True)
+
         return response
 
     # Something (user or pass) is not ok
@@ -186,9 +195,12 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
 @router.get('/logout')
 async def logout():
 
-    # Delete cookie and create current_user.username in sidebar.html
-    
-    return RedirectResponse(url="/login")
+    # Delete cookie and redirect to login
+
+    response = RedirectResponse(url="/login")
+    response.delete_cookie(key="access_token")
+
+    return response
 
 
 # # Errors

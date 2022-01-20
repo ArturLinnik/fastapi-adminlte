@@ -34,18 +34,10 @@
       <div class="card-body login-card-body">
 
         <h5 class="login-box-msg">
-          Error 403 - Access Denied
+          Error {{ status_code }} - {{ detail }}
         </h5>
-        <p class="login-box-msg">
-          Authentication is required to access this resource 
-          - please <a href="{{ url_for('login') }}" class="text-center">Login</a>
-        </p>
 
-        <br />
         <div class="text-center">
-            Not a member? <a href="{{ url_for('register') }}" class="text-center">Register</a>
-            <br />
-            <br />
             &copy; ColorLib 
             <a target="_blank" rel="noopener noreferrer"
                href="https://appseed.us/admin-dashboards/flask-dashboard-adminlte"><b>Admin</b>LTE</a> 

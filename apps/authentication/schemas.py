@@ -10,6 +10,8 @@ from wtforms.validators import Email, DataRequired
 from fastapi import Form
 from pydantic import BaseModel
 
+from typing import Optional
+
 class ResponseModel(BaseModel):
     class Config:
         orm_mode = True
@@ -36,6 +38,11 @@ class CreateAccountFormRequest(BaseModel):
 class CreateAccountFormResponse(ResponseModel):
     username: str
     email: str
+
+
+
+class TokenData(BaseModel):
+    username: Optional[str] = None
 
 # login and registration
 

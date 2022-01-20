@@ -1,7 +1,4 @@
 # -*- encoding: utf-8 -*-
-"""
-Copyright (c) 2019 - present AppSeed.us
-"""
 
 # from urllib.request import Request
 # from flask import Flask
@@ -15,10 +12,14 @@ Copyright (c) 2019 - present AppSeed.us
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
-from apps.authentication import routes as routes1
-from apps.home import routes as routes2
+from apps.authentication import routes as auth_routes
+from apps.home import routes as home_routes
 
 from .database import Base, engine
+
+from starlette.exceptions import HTTPException as StarletteHTTPException
+from fastapi.responses import PlainTextResponse
+from fastapi.templating import Jinja2Templates
 
 # from fastapi_login import LoginManager
 #######
@@ -78,10 +79,22 @@ app.mount(
     name="static",
 )
 
-app.include_router(routes1.router)
-app.include_router(routes2.router)
+app.include_router(auth_routes.router)
+app.include_router(home_routes.router)
 
-# templates = Jinja2Templates(directory="apps/templates")
+templates = Jinja2Templates(directory="apps/templates")
+
+@app.exception_handler(StarletteHTTPException)
+async def http_exception_handler(request, exc):
+
+    if exc.status_code == 403 or exc.status_code == 404 or exc.status_code == 500:
+        return templates.TemplateResponse(f"home/page-{exc.status_code}.html", {"request": request})
+
+    if exc.status_code == 401:
+        return templates.TemplateResponse("home/page-403.html", {"request": request})
+
+    return templates.TemplateResponse("home/page-error.html", {"request": request, "status_code": exc.status_code, "detail": exc.detail})
+
 
 # @app.get("/")
 # async def route_default(response: Response):
