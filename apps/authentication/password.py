@@ -1,7 +1,12 @@
+# -*- encoding: utf-8 -*-
+
+# password.py
 
 from passlib.context import CryptContext
 
+
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 
 # Hash a password for storing.
 def hash_pass(password):

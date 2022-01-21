@@ -1,12 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-import os
-import hashlib
-import binascii
-
-
-
-###############
+# util.py
 
 from fastapi import Request, HTTPException, status
 from fastapi.security import OAuth2
@@ -15,6 +9,7 @@ from fastapi.security.utils import get_authorization_scheme_param
 
 from typing import Optional, Dict
 
+# Changed Fastapi's OAuth2PasswordBearer code to access token from httpOnly cookies
 
 class OAuth2PasswordBearerWithCookie(OAuth2):
     def __init__(
@@ -30,7 +25,7 @@ class OAuth2PasswordBearerWithCookie(OAuth2):
         super().__init__(flows=flows, scheme_name=scheme_name, auto_error=auto_error)
 
     async def __call__(self, request: Request) -> Optional[str]:
-        authorization: str = request.cookies.get("access_token")  # changed to accept access token from httpOnly Cookie
+        authorization: str = request.cookies.get("access_token")  # Changed
 
         scheme, param = get_authorization_scheme_param(authorization)
         if not authorization or scheme.lower() != "bearer":

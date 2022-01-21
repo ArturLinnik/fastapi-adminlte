@@ -1,7 +1,7 @@
 
 # Changes
 
-- [ ] Migrate Flask to FastAPI.
+- [x] Migrate Flask to FastAPI.
   - [x] Register Template.
   - [x] Login Template.
   - [x] SQL Database.
@@ -10,12 +10,10 @@
   - [x] JWT Tokens with Cookies.
   - [x] Custom error pages.
   - [x] Html templates hrefs.
-  - [ ] Jinja2 variables.
-  - [ ] Environment variables.
-  - [ ] Run app using run.py.
-  - [ ] Clean code.
+  - [x] Jinja2 variables.
+  - [x] Run app using run.py.
+  - [x] Clean code.
 - [ ] Register and Login forms validation.
-- [ ] Change AdminLTE's frontend and database structure to ours.
 
 # [AdminLTE Flask](https://appseed.us/admin-dashboards/flask-dashboard-adminlte)
 
