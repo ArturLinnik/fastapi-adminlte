@@ -20,7 +20,7 @@
 ```bash
 $ # Get the code
 $ git clone -b fastapi https://gitlab.bemyvega.dev/bemyvega/adminlte
-$ cd fastapi
+$ cd adminlte
 $
 $ # Virtualenv modules installation (Unix based systems)
 $ virtualenv env

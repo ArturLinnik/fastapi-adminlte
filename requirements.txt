@@ -8,5 +8,5 @@ pydantic==1.9.0
 sqlalchemy==1.4.29
 pymysql==1.0.2
 python-jose[cryptography]==3.3.0
-passlib[brcypt]==1.7.4
+passlib[bcrypt]==1.7.4
 bcrypt==3.2.0
