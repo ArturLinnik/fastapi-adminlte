@@ -1,5 +1,5 @@
 
-# Changes
+# ✨ Changes
 
 - [x] Migrate Flask to FastAPI.
   - [x] Register Template.
@@ -14,6 +14,42 @@
   - [x] Run app using run.py.
   - [x] Clean code.
 - [ ] Register and Login forms validation.
+
+## ✨ How to use it
+
+```bash
+$ # Get the code
+$ git clone -b fastapi https://gitlab.bemyvega.dev/bemyvega/adminlte
+$ cd fastapi
+$
+$ # Virtualenv modules installation (Unix based systems)
+$ virtualenv env
+$ source env/bin/activate
+$
+$ # Virtualenv modules installation (Windows based systems)
+$ # virtualenv env
+$ # .\env\Scripts\activate
+$
+$ # Install modules - SQLite Database
+$ pip3 install -r requirements.txt
+$
+$ # OR with PostgreSQL connector
+$ # pip install -r requirements-pgsql.txt
+$
+$ # Set the FASTAPI_APP environment variable
+$ (Unix/Mac) export FASTAPI_APP=run.py
+$
+$ # Start the application
+$ python3 run.py
+$
+$ # Access the dashboard in browser: http://localhost:4444/
+```
+
+> Note: To use the app, please access the registration page and create a new user. After authentication, the app will unlock the private pages.
+
+<br />
+
+-----------------------------
 
 # [AdminLTE Flask](https://appseed.us/admin-dashboards/flask-dashboard-adminlte)
 
@@ -64,48 +100,6 @@ Visit `http://localhost:85` in your browser. The app should be up & running.
 
 <br />
 
-## ✨ How to use it
-
-```bash
-$ # Get the code
-$ git clone https://github.com/app-generator/flask-adminlte.git
-$ cd flask-adminlte
-$
-$ # Virtualenv modules installation (Unix based systems)
-$ virtualenv env
-$ source env/bin/activate
-$
-$ # Virtualenv modules installation (Windows based systems)
-$ # virtualenv env
-$ # .\env\Scripts\activate
-$
-$ # Install modules - SQLite Database
-$ pip3 install -r requirements.txt
-$
-$ # OR with PostgreSQL connector
-$ # pip install -r requirements-pgsql.txt
-$
-$ # Set the FLASK_APP environment variable
-$ (Unix/Mac) export FLASK_APP=run.py
-$ (Windows) set FLASK_APP=run.py
-$ (Powershell) $env:FLASK_APP = ".\run.py"
-$
-$ # Set up the DEBUG environment
-$ # (Unix/Mac) export FLASK_ENV=development
-$ # (Windows) set FLASK_ENV=development
-$ # (Powershell) $env:FLASK_ENV = "development"
-$
-$ # Start the application (development mode)
-$ # --host=0.0.0.0 - expose the app on all network interfaces (default 127.0.0.1)
-$ # --port=5000    - specify the app port (default 5000)  
-$ flask run --host=0.0.0.0 --port=5000
-$
-$ # Access the dashboard in browser: http://127.0.0.1:5000/
-```
-
-> Note: To use the app, please access the registration page and create a new user. After authentication, the app will unlock the private pages.
-
-<br />
 
 ## ✨ Code-base structure
 
