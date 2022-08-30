@@ -1,6 +1,16 @@
-# ✨ Changes
+## About
 
--   [x] Migrate Flask to FastAPI.
+Migration from Flask to FastAPI of https://github.com/app-generator/flask-adminlte.
+
+This repository was created as a starting point if you want to use AdminLTE's Dashboard with FastAPI instead of Flask.
+
+### WARNING!
+
+Some features could not work as expected in the original project and some of them could not work at all. This repository will not be maintained at all as it was part of a larger project which has been cancelled. I'm uploading this just in case someone finds himself in the same situation as me where I wanted to use AdminLTE's template but had to use FastAPI instead of Flask.
+
+## ✨ Changes
+
+-   Migrate Flask to FastAPI:
     -   [x] Register Template.
     -   [x] Login Template.
     -   [x] SQL Database.
@@ -12,7 +22,6 @@
     -   [x] Jinja2 variables.
     -   [x] Run app using run.py.
     -   [x] Clean code.
--   [ ] Register and Login forms validation.
 
 ## ✨ How to use it
 
@@ -22,18 +31,11 @@ $ git clone -b fastapi https://gitlab.bemyvega.dev/bemyvega/adminlte
 $ cd adminlte
 $
 $ # Virtualenv modules installation (Unix based systems)
-$ virtualenv env
-$ source env/bin/activate
-$
-$ # Virtualenv modules installation (Windows based systems)
-$ # virtualenv env
-$ # .\env\Scripts\activate
+$ virtualenv .venv
+$ source .venv/bin/activate
 $
 $ # Install modules - SQLite Database
 $ pip3 install -r requirements.txt
-$
-$ # OR with PostgreSQL connector
-$ # pip install -r requirements-pgsql.txt
 $
 $ # Set the FASTAPI_APP environment variable
 $ (Unix/Mac) export FASTAPI_APP=run.py
@@ -41,7 +43,7 @@ $
 $ # Start the application
 $ python3 run.py
 $
-$ # Access the dashboard in browser: http://localhost:4444/
+$ # Access the dashboard in browser: http://localhost:8000/
 ```
 
 > Note: To use the app, please access the registration page and create a new user. After authentication, the app will unlock the private pages.
