@@ -10,7 +10,7 @@ from .util import OAuth2PasswordBearerWithCookie
 from jose import jwt
 
 
-SECRET_KEY = "253c7198aef00ddf07d524fbfa7b4861e66190c0c22c377e92ecb2730247bb1d" # Better store this in an environment variable
+SECRET_KEY = "253c7198aef00ddf07d524fbfa7b4861e66190c0c22c377e92ecb2730247bb1d"  # Better store this in an environment variable
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 

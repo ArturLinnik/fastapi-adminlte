@@ -38,14 +38,20 @@ def custom_error_pages(app):
         templates = Jinja2Templates(directory="apps/templates")
 
         if exc.status_code == 403 or exc.status_code == 404 or exc.status_code == 500:
-            return templates.TemplateResponse(f"home/page-{exc.status_code}.html", {"request": request})
+            return templates.TemplateResponse(
+                f"home/page-{exc.status_code}.html", {"request": request}
+            )
 
         if exc.status_code == 401:
-            return templates.TemplateResponse("home/page-403.html", {"request": request})
+            return templates.TemplateResponse(
+                "home/page-403.html", {"request": request}
+            )
 
-        return templates.TemplateResponse("home/page-error.html", {"request": request, "exc": exc})
+        return templates.TemplateResponse(
+            "home/page-error.html", {"request": request, "exc": exc}
+        )
 
-    
+
 def register_routes(app):
     app.include_router(auth_routes.router)
     app.include_router(home_routes.router)

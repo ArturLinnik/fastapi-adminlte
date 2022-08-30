@@ -12,7 +12,9 @@ class ResponseModel(BaseModel):
     class Config:
         orm_mode = True
 
+
 # --- Register ---
+
 
 class CreateAccountFormRequest(BaseModel):
     username: str
@@ -25,19 +27,22 @@ class CreateAccountFormRequest(BaseModel):
         username: str = Form(...),
         email: str = Form(...),
         password: str = Form(...),
-        ):
+    ):
 
         return cls(
             username=username,
             email=email,
             password=password,
-            )
+        )
+
 
 class CreateAccountFormResponse(ResponseModel):
     username: str
     email: str
 
+
 # --- Token ---
+
 
 class TokenData(BaseModel):
     username: Optional[str] = None

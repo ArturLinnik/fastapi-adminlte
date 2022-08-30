@@ -11,6 +11,7 @@ from typing import Optional, Dict
 
 # Changed Fastapi's OAuth2PasswordBearer code to access token from httpOnly cookies
 
+
 class OAuth2PasswordBearerWithCookie(OAuth2):
     def __init__(
         self,

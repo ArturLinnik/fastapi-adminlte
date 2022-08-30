@@ -20,7 +20,9 @@ def get_email(db: Session, email: str):
     return db.query(Users).filter(Users.email == email).first()
 
 
-async def get_current_user(db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)):
+async def get_current_user(
+    db: Session = Depends(get_db), token: str = Depends(oauth2_scheme)
+):
 
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -43,7 +45,7 @@ async def get_current_user(db: Session = Depends(get_db), token: str = Depends(o
 
     user = get_user(db, token_data.username)
 
-    # If user doesn't exist in database rasie error 
+    # If user doesn't exist in database rasie error
     if user is None:
         raise credentials_exception
 
